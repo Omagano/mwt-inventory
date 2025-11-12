@@ -1,0 +1,124 @@
+@model InventorySystem.Models.EquipmentsEntity
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Equipments</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" value="0"/>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TypeId" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId">
+                    <option value="">-- Select Type --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModelId" class="control-label"></label>
+                <select asp-for="ModelId" class="form-control" asp-items="ViewBag.ModelId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BrandId" class="control-label"></label>
+                <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuppliersId" class="control-label"></label>
+                <select asp-for="SuppliersId" class="form-control" asp-items="ViewBag.SuppliersId"></select>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="SerialNumber" class="control-label"></label>
+                <input asp-for="SerialNumber" class="form-control" />
+                <span asp-validation-for="SerialNumber" class="text-danger"></span>
+            </div>      
+            <div class="form-group">
+                <label asp-for="ReceiverName" class="control-label"></label>
+                <input asp-for="ReceiverName" class="form-control" />
+                <span asp-validation-for="ReceiverName" class="text-danger"></span>
+            </div>      
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VendorPrice" class="control-label"></label>
+                <input asp-for="VendorPrice" class="form-control" />
+                <span asp-validation-for="VendorPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Value" class="control-label"></label>
+                <input asp-for="Value" class="form-control" />
+                <span asp-validation-for="Value" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Warantyfrom" class="control-label"></label>
+                <input asp-for="Warantyfrom" class="form-control" type="date" />
+                <span asp-validation-for="Warantyfrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WarantyEnd" class="control-label"></label>
+                <input asp-for="WarantyEnd" class="form-control" type="date" />
+                <span asp-validation-for="WarantyEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalDate" class="control-label"></label>
+                <input asp-for="ArrivalDate" class="form-control" type="date" />
+                <span asp-validation-for="ArrivalDate" class="text-danger"></span>
+            </div>          
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            // Client-side remote validation
+            $.validator.addMethod("remoteserial", function (value, element, params) {
+                if (this.optional(element)) return true;
+
+                var id = $('#Id').val() || 0;
+                var result = false;
+
+                $.ajax({
+                    url: '@Url.Action("VerifySerialNumber")',
+                    type: "GET",
+                    data: { serialNumber: value, id: id },
+                    async: false,
+                    success: function (data) {
+                        result = data;
+                    }
+                });
+
+                return result;
+            }, "This serial number is already in use.");
+
+            $("form").validate({
+                rules: {
+                    SerialNumber: {
+                        remoteserial: true
+                    }
+                }
+            });
+        });
+    </script>
+}

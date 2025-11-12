@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 320px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        .dropdown-header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-header:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #243445 100%);
+        }
+        
+        .dropdown-content {
+            display: none;
+            background: white;
+            border-top: 1px solid #eaeaea;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        /*@@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }*/
+        
+        .dropdown-item {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #f1f1f1;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #e8f4fc;
+            color: #2980b9;
+            padding-left: 25px;
+        }
+        
+        .dropdown-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .rotate {
+            transform: rotate(180deg);
+        }
+        
+        .badge {
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dropdown-header" id="dropdownHeader">
+            <span><i class="fas fa-tools"></i> Equipment Module</span>
+            <i class="fas fa-chevron-down" id="dropdownIcon"></i>
+        </div>
+        
+        <div class="dropdown-content" id="dropdownContent">
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-cubes"></i> Models
+                <span class="badge">12</span>
+            </a>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-tags"></i> Equipment Types
+                <span class="badge">8</span>
+            </a>
+            <a href="#" class="dropdown-item">
+                <i class="fas fa-plus-circle"></i> Adding New Equipment
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownHeader = document.getElementById('dropdownHeader');
+            const dropdownContent = document.getElementById('dropdownContent');
+            const dropdownIcon = document.getElementById('dropdownIcon');
+            
+            // Toggle dropdown on header click
+            dropdownHeader.addEventListener('click', function() {
+                dropdownContent.classList.toggle('active');
+                dropdownIcon.classList.toggle('rotate');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.container')) {
+                    dropdownContent.classList.remove('active');
+                    dropdownIcon.classList.remove('rotate');
+                }
+            });
+            
+            // Add click handlers for menu items
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Navigating to: ' + this.textContent.trim());
+                    dropdownContent.classList.remove('active');
+                    dropdownIcon.classList.remove('rotate');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

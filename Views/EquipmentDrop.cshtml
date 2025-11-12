@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment Module Dropdown</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 320px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        /* Dropdown header */
+        .dropdown-header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-header:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #243445 100%);
+        }
+        
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            background: white;
+            border-top: 1px solid #eaeaea;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        /* Keyframes definition - This fixes the CS0103 error */
+       /* @@keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }*/
+        
+        /* Dropdown items */
+        .dropdown-item {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px solid #f1f1f1;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #e8f4fc;
+            color: #2980b9;
+            padding-left: 25px;
+        }
+        
+        .dropdown-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Active state */
+        .active {
+            display: block;
+        }
+        
+        /* Chevron rotation */
+        .rotate {
+            transform: rotate(180deg);
+        }
+        
+        /* Badge styling */
+        .badge {
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: auto;
+        }
+        
+        /* Section styling */
+        .section {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .section p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="dropdown-header" id="dropdownHeader">
+            <span><i class="fas fa-tools"></i> Equipment Module</span>
+            <i class="fas fa-chevron-down" id="dropdownIcon"></i>
+        </div>
+        
+        <div class="dropdown-content" id="dropdownContent">
+            <a href="#" class="dropdown-item" data-target="models">
+                <i class="fas fa-cubes"></i> Models
+                <span class="badge">12</span>
+            </a>
+            <a href="#" class="dropdown-item" data-target="types">
+                <i class="fas fa-tags"></i> Equipment Types
+                <span class="badge">8</span>
+            </a>
+            <a href="#" class="dropdown-item" data-target="add">
+                <i class="fas fa-plus-circle"></i> Adding New Equipment
+            </a>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div id="models" class="section">
+        <h2><i class="fas fa-cubes"></i> Equipment Models</h2>
+        <p>Manage your equipment models and specifications. View, edit, and update model details.</p>
+    </div>
+
+    <div id="types" class="section">
+        <h2><i class="fas fa-tags"></i> Equipment Types</h2>
+        <p>Organize your equipment by types and categories. Create custom classifications.</p>
+    </div>
+
+    <div id="add" class="section">
+        <h2><i class="fas fa-plus-circle"></i> Adding New Equipment</h2>
+        <p>Add new equipment to your inventory. Fill in the required details and specifications.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownHeader = document.getElementById('dropdownHeader');
+            const dropdownContent = document.getElementById('dropdownContent');
+            const dropdownIcon = document.getElementById('dropdownIcon');
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            const sections = document.querySelectorAll('.section');
+            
+            // Toggle dropdown on header click
+            dropdownHeader.addEventListener('click', function() {
+                dropdownContent.classList.toggle('active');
+                dropdownIcon.classList.toggle('rotate');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.container')) {
+                    dropdownContent.classList.remove('active');
+                    dropdownIcon.classList.remove('rotate');
+                }
+            });
+            
+            // Handle menu item clicks
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show the selected section
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Close the dropdown
+                    dropdownContent.classList.remove('active');
+                    dropdownIcon.classList.remove('rotate');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
