@@ -33,7 +33,11 @@
                          <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
-                        
+               
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn ">Logout </button>
+                        </form>
+
                         <!--<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
                         </li>

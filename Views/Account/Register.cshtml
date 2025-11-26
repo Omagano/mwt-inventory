@@ -4,7 +4,8 @@
 
 <form asp-action="Register" method="post" asp-route-returnurl="@ViewData["ReturnUrl"]">
     <div asp-validation-summary="All" class="text-danger"></div>
-    
+    <!-- Hidden field to preserve ReturnUrl -->
+    <input type="hidden" asp-for="ReturnUrl" />
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />

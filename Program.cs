@@ -13,9 +13,7 @@ else{
     builder.Services.AddDbContext<MvcAppContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionMvcAppContext")));
 }
-
-// Add Identity
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     // Password settings
     options.Password.RequireDigit = true;
@@ -23,16 +21,38 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 6;
-    
+    // Redirect to your custom login page
+
     // Lockout settings
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
     options.Lockout.MaxFailedAccessAttempts = 5;
-    
+
     // User settings
     options.User.RequireUniqueEmail = true;
 })
 .AddEntityFrameworkStores<MvcAppContext>()
 .AddDefaultTokenProviders();
+
+//// Add Identity
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+//{
+//    // Password settings
+//    options.Password.RequireDigit = true;
+//    options.Password.RequireLowercase = true;
+//    options.Password.RequireNonAlphanumeric = false;
+//    options.Password.RequireUppercase = true;
+//    options.Password.RequiredLength = 6;
+//    // Redirect to your custom login page
+     
+//    // Lockout settings
+//    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+//    options.Lockout.MaxFailedAccessAttempts = 5;
+    
+//    // User settings
+//    options.User.RequireUniqueEmail = true;
+//})
+//.AddEntityFrameworkStores<MvcAppContext>()
+//.AddDefaultTokenProviders();
 
 // Add MVC
 builder.Services.AddControllersWithViews();

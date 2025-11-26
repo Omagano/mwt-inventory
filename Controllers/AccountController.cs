@@ -17,18 +17,26 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login(string returnUrl = null)
     {
+
+
+
+        var model = new LoginViewModel { ReturnUrl = returnUrl ?? Url.Content("~/") };
+        return View(model);
+
         //returnUrl = returnUrl ?? Url.Action("Index", "Home");
-        ViewData["ReturnUrl"] = returnUrl;
-        return View(
-            new LoginViewModel { ReturnUrl = returnUrl }
-        );  // This will look for Views/Account/Login.cshtml
+        //ViewData["ReturnUrl"] = returnUrl;
+        //return View(
+        //    new LoginViewModel { ReturnUrl = returnUrl }
+        //);  // This will look for Views/Account/Login.cshtml
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        
+        //ViewData["ReturnUrl"] = returnUrl;
+        // Default to home if no returnUrl provided
+        returnUrl ??= Url.Content("~/");
+
         if (ModelState.IsValid)
         {
             var result = await _signInManager.PasswordSignInAsync(
@@ -52,10 +60,20 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register(string returnUrl = null)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-        return View(
-            //new RegisterViewModel { ReturnUrl = returnUrl }
-        );  // This will look for Views/Account/Register.cshtml
+
+
+
+        var model = new RegisterViewModel { ReturnUrl = returnUrl ?? Url.Content("~/") };
+        return View(model);
+
+
+
+
+
+        //ViewData["ReturnUrl"] = returnUrl;
+        //return View(
+        //    //new RegisterViewModel { ReturnUrl = returnUrl }
+        //);  // This will look for Views/Account/Register.cshtml
     }
 
    /* public Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
@@ -77,11 +95,11 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                
-               /* if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
-                }*/
+                }
                 return RedirectToAction("Index", "Home");
             }
             

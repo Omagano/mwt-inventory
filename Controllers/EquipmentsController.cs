@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using InventorySystem.Models;
 using MvcMovie.Data;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcApp.Controllers
 {
@@ -73,6 +74,7 @@ namespace MvcApp.Controllers
         }
 
         // GET: Equipments/Create
+        [Authorize]
         public async Task<IActionResult> Create()
         {
             await PopulateDropdowns();

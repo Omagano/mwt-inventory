@@ -5,3 +5,6 @@
 /.vs
 /MvcAppContext-9de2901f-83de-4eff-8b35-2922b749ba1e.db-wal
 /MvcAppContext-9de2901f-83de-4eff-8b35-2922b749ba1e.db-shm
+# Ignore build output folders
+bin/
+obj/
